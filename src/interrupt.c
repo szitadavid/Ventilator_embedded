@@ -6,6 +6,8 @@ extern char BT_message[100];
 extern char Wifi_message[100];
 
 
+
+
 __IO uint16_t TIM16_IC1ReadValue1 = 0;
 __IO uint16_t TIM16_IC1ReadValue2 = 0;
 __IO uint32_t PING_Response = 0;
@@ -20,12 +22,13 @@ void TIM2_IRQHandler(void)
 	TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 }
 
+//Data sending frequency
 void TIM4_IRQHandler(void)
 {
 	if(TIM_GetITStatus(TIM4, TIM_IT_Update) == SET)
 	{
 		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
-		SendData = 1;
+		//SendData = 1;
 	}
 }
 
@@ -68,6 +71,7 @@ void TIM7_IRQHandler(void)
 			TIM_SetCounter(TIM7, 0);
 			cnt_PING = 0;
 			Init_Ping_IN();
+
 		}
 	}
 }
@@ -101,10 +105,12 @@ void TIM1_UP_TIM16_IRQHandler(void)
 			{
 				PING_Response = 0;
 			}
-			PING_Response = PING_Response * 5;
-			Set_Distance(PING_Response);
-			//control = 1;
-			//SendData = 1;
+			if(PING_Response != 0)
+			{
+				PING_Response = PING_Response * 5;
+				Set_Distance(PING_Response);
+				//control = 1;
+			}
 		}
 	}
 }
@@ -137,7 +143,7 @@ void USART1_IRQHandler(void)
 
 			if(TERM_FBCK)
 			{
-				SendString_USART("\r\n", 2, USART1);
+				SendString_USART("\r\n", USART1);
 			}
 
 			BT_messagearrived = cnt;
@@ -161,7 +167,7 @@ void USART1_IRQHandler(void)
 void USART3_IRQHandler(void)
 {
 	char ch;
-	static uint16_t usart3_cnt = 0;
+	static uint16_t usart3_cnt = 1;
 
 	if ((USART3->SR & USART_FLAG_RXNE) != (u16)RESET)
 	{
@@ -171,8 +177,8 @@ void USART3_IRQHandler(void)
 		if(Wifi_message[usart3_cnt] == '\n')
 		{
 			Wifi_messagearrived = usart3_cnt;
-			Wifi_message[usart3_cnt+1] = '\0';
-			usart3_cnt = 0;
+			Wifi_message[usart3_cnt] = '\0';
+			usart3_cnt = 1;
 		}
 
 		else
@@ -206,6 +212,5 @@ void TIM1_CC_IRQHandler(void)
 
 		Motor_Freq = SystemCoreClock * 60 / 360 / Motor_Freq; // unit: rpm
 		Set_RPM( (uint16_t) Motor_Freq);
-		//SendData=1;
 	}
 }

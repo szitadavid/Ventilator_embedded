@@ -186,9 +186,9 @@ void uint162StrDec_nc (char* str, uint16_t data)
 	}
 	else
 	{
-		for(i=1; i<5; i++)
+		for(i=1; i<6; i++)
 		{
-			str[4-i] = (uint8_t) ((data % 10UL) + '0');
+			str[5-i] = (uint8_t) ((data % 10UL) + '0');
 			data/=10;
 		}
 		str[i-1] = '\0';

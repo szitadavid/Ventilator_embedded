@@ -33,7 +33,7 @@
       </source>
       <source file="..\..\..\cmsis_boot\stm32f10x_conf.h" lastModified="14b7a2f6c2f">
       </source>
-      <source file="..\..\..\src\communication.c" lastModified="1501507d07a">
+      <source file="..\..\..\src\communication.c" lastModified="15042dacd2c">
          <include file="..\..\..\inc\communication.h"/>
       </source>
       <source file="..\..\..\stm_lib\src\misc.c" lastModified="14b7a2fff0b">
@@ -44,7 +44,7 @@
       <source file="..\..\..\stm_lib\inc\stm32f10x_usart.h" lastModified="14b7a2fe9e6">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
-      <source file="..\..\..\src\conv.c" lastModified="14d569c76d6">
+      <source file="..\..\..\src\conv.c" lastModified="1503d4fdf67">
          <include file="..\..\..\inc\conv.h"/>
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="14b7a3069af">
@@ -65,18 +65,8 @@
       <source file="..\..\..\stm_lib\inc\misc.h" lastModified="14b7a2ffefb">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
-      <source file="..\..\..\src\ci.c" lastModified="150151fdb1b">
+      <source file="..\..\..\src\ci.c" lastModified="1504c549a1a">
          <include file="..\..\..\inc\ci.h"/>
-      </source>
-      <source file="..\..\..\main.c" lastModified="15015207d7f">
-         <include file="..\..\..\inc\config.h"/>
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-         <include file="..\..\..\inc\motor.h"/>
-         <include file="..\..\..\inc\ci.h"/>
-         <include file="..\..\..\inc\communication.h"/>
-         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
-         <include file="..\..\..\inc\measurement_ctrl.h"/>
-         <include file="..\..\..\inc\conv.h"/>
       </source>
       <source file="..\..\..\cmsis\core_cmInstr.h" lastModified="14b7a2f745c">
       </source>
@@ -91,7 +81,7 @@
          <include file="..\..\..\stm_lib\inc\stm32f10x_dma.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_usart.h"/>
       </source>
-      <source file="..\..\..\src\interrupt.c" lastModified="15015259728">
+      <source file="..\..\..\src\interrupt.c" lastModified="15056835f23">
          <include file="..\..\..\inc\interrupt.h"/>
          <include file="..\..\..\inc\global.h"/>
          <include file="..\..\..\inc\measurement_ctrl.h"/>
@@ -99,7 +89,7 @@
       <source file="..\..\..\inc\conv.h" lastModified="14cd251cc73">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
-      <source file="..\..\..\inc\global.h" lastModified="1501515763b">
+      <source file="..\..\..\inc\global.h" lastModified="15046ae6c25">
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_rcc.c" lastModified="14b7a2f6bf0">
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
@@ -109,7 +99,7 @@
          <include file="..\..\..\cmsis_boot\system_stm32f10x.h"/>
          <include file="..\..\..\cmsis_boot\stm32f10x_conf.h"/>
       </source>
-      <source file="..\..\..\src\measurement_ctrl.c" lastModified="150151ce027">
+      <source file="..\..\..\src\measurement_ctrl.c" lastModified="1505711e2fa">
          <include file="..\..\..\inc\measurement_ctrl.h"/>
       </source>
       <source file="..\..\..\inc\ci.h" lastModified="150151b64d0">
@@ -119,7 +109,7 @@
          <include file="..\..\..\inc\global.h"/>
          <include file="..\..\..\inc\measurement_ctrl.h"/>
       </source>
-      <source file="..\..\..\inc\communication.h" lastModified="15015161382">
+      <source file="..\..\..\inc\communication.h" lastModified="1503d4b5ab4">
          <include file="..\..\..\stm_lib\inc\stm32f10x_usart.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
          <include file="..\..\..\inc\global.h"/>
@@ -128,7 +118,7 @@
          <include file="..\..\..\stm_lib\inc\stm32f10x_adc.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
       </source>
-      <source file="..\..\..\inc\measurement_ctrl.h" lastModified="150151ee8a5">
+      <source file="..\..\..\inc\measurement_ctrl.h" lastModified="1505711e319">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
@@ -136,7 +126,7 @@
          <include file="..\..\..\stm_lib\inc\misc.h"/>
          <include file="..\..\..\inc\global.h"/>
       </source>
-      <source file="..\..\..\src\config.c" lastModified="150150be1fa">
+      <source file="..\..\..\src\config.c" lastModified="1504c813dfd">
          <include file="..\..\..\inc\config.h"/>
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_dma.c" lastModified="14b7a2f9937">
@@ -190,9 +180,6 @@
       </source>
       <source file="..\..\..\stm_lib\inc\stm32f10x_usart.h" lastModified="14b7a2fe9e6">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-      <source file="..\..\..\src\conv.c" lastModified="14d569c76d6">
-         <include file="..\..\..\inc\conv.h"/>
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="14b7a3069af">
          <include file="..\..\..\stm_lib\inc\stm32f10x_tim.h"/>
@@ -266,9 +253,6 @@
       </source>
       <source file="..\..\..\stm_lib\inc\stm32f10x_usart.h" lastModified="14b7a2fe9e6">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-      <source file="..\..\..\src\conv.c" lastModified="14d569c76d6">
-         <include file="..\..\..\inc\conv.h"/>
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="14b7a3069af">
          <include file="..\..\..\stm_lib\inc\stm32f10x_tim.h"/>
