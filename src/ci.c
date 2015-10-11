@@ -16,7 +16,6 @@ const stCommItem G_staCommands[] = {
                                    {"DC", d_DC, "/Duty Cycle/ Motor speed (duty cycle) given in decimal, range: 0-100 [%]. (e.g. DC=50)"},
                                    {"GS", d_GS, "/Get Speed/ Getting the motor speed (in RPM) is enabled (1) or disabled (0). (e.g. GS=0)"},
                                    {"GD", d_GD, "/Get Distance Getting the distance (in cm) is enabled (1) or disabled (0). (e.g. GD=0)"},
-                                   {"GC", d_GC, "/Get Current/ Getting high-side current (in A?) is enabled (1) or disabled (0). (e.g. GC=0) /not implemented/"},
                                    {"RP", d_RP, "/Reference position/ Set reference position. Minimum 20 cm, maximum 140 cm."},
                                    {"",0}
                                    };
@@ -56,124 +55,90 @@ uint8_t ucCI_GetParameter(char* ucpCommand, char answer[]);
 *-----------------------------------------------------------------------------*
 * PARAMETER                                                                   *
 *    char* ucpCommand:          Address of the Master command string          *
-*    uint8_t  ucLength: 	Length of the master message                  *
+*    uint8_t  ucLength: 		ID of the client			                  *
 *    char* ucpAnswer: 	        Address of the Slave buffer	              *
 * END                                                                         *
 * RETURN:                                                                     *
 *    uint8_t:                   Size of the contents of the slave buffer      *
 ******************************************************************************/
 uint8_t ucCI_CommandInterpreter(char* ucpCommand,
-                                uint8_t  ucLength,
+                                uint8_t  clientID,
                                 char* ucpAnswer)
 {
   uint8_t ucCommandCode;
-  uint8_t NeedHelp;
   uint32_t val;
 
-  ucpCommand[ucLength] = '\0';  // Closes the string
 
-  NeedHelp = ucCI_CheckHelp(ucpCommand);
   ucCommandCode = ucCI_CommandCoder(ucpCommand);
-  if(!NeedHelp)
+
+  switch(ucCommandCode)
   {
-	  switch(ucCommandCode)
-	  {
-		/////////////////////////////////////////////////////////////////////
-		case d_SP:
-				CI_BuildAnswer(ucpAnswer, G_staCommands[ucCommandCode-1].ucHelp, NULL);
-			break;
-		case d_DC:
-				CI_BuildAnswer(ucpAnswer, G_staCommands[ucCommandCode-1].ucHelp, NULL);
-			break;
-		case d_GS:
-				CI_BuildAnswer(ucpAnswer, G_staCommands[ucCommandCode-1].ucHelp, NULL);
-			break;
-		case d_GD:
-				CI_BuildAnswer(ucpAnswer, G_staCommands[ucCommandCode-1].ucHelp, NULL);
-			break;
-		default:
+	/////////////////////////////////////////////////////////////////////
+	case d_SP:
+		if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_X | d_PTYP_LAST, 4))
+		{
 
-		  CI_BuildAnswer(ucpAnswer, d_UnknownASCIICommand, NULL);
-		  break;
-	  } // switch ucCommandCode
-	  return (strlen(ucpAnswer) );
+			val = Str2uint16(ucpCommand+3);
+			val = val *1000 / 0xFFFF;
+			M_Set_DC((uint16_t) val);
+			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+		}
+		else
+			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
+		break;
+	case d_DC:
+		if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_X | d_PTYP_LAST, 4))
+		{
+			val = DecString2uint16(ucpCommand+3);
+			M_Set_DC((uint16_t) val);
+			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+		}
+		else
+			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
+		break;
+	case d_GS:
+		if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_10 | d_PTYP_LAST, 0))
+		{
+			if(ucpCommand[3] == '1')
+				SendData_Mask |= (1<<0);
+			else if(ucpCommand[3] == '0')
+				SendData_Mask &= ~(1<<0);
+			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+		}
+		else
+			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
+		break;
+	case d_GD:
+		if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_10 | d_PTYP_LAST, 0))
+		{
+			if(ucpCommand[3] == '1')
+				SendData_Mask |= (1<<1);
+			else if(ucpCommand[3] == '0')
+				SendData_Mask &= ~(1<<1);
+			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+		}
+		else
+			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
+		break;
+	case d_RP:
+		if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_X | d_PTYP_LAST, 3))
+		{
+
+			val = DecString2uint16(ucpCommand+3);
+			Set_RefPos((uint16_t) val);
+			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+		}
+		else
+			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
+		break;
+	default:
+
+	  CI_BuildAnswer(ucpAnswer, d_UnknownASCIICommand, NULL);
+	  break;
   }
-  else
-  {
-	  switch(ucCommandCode)
-	  {
-		/////////////////////////////////////////////////////////////////////
-		case d_SP:
-			if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_X | d_PTYP_LAST, 4))
-			{
 
-				val = Str2uint16(ucpCommand+3);
-				val = val *1000 / 0xFFFF;
-				M_Set_DC((uint16_t) val);
-				CI_BuildAnswer(ucpAnswer, d_E0, NULL);
-			}
-			else
-				// Parameter error: there should be no parameters
-				CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
-			break;
-		case d_DC:
-			if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_X | d_PTYP_LAST, 4))
-			{
+  return (strlen(ucpAnswer) );
 
-				val = DecString2uint16(ucpCommand+3);
-				M_Set_DC((uint16_t) val);
-				CI_BuildAnswer(ucpAnswer, d_E0, NULL);
-			}
-			else
-				// Parameter error: there should be no parameters
-				CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
-			break;
-		case d_GS:
-			if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_10 | d_PTYP_LAST, 0))
-			{
-				if(ucpCommand[3] == '1')
-					SendData_Mask |= (1<<0);
-				else if(ucpCommand[3] == '0')
-					SendData_Mask &= ~(1<<0);
-				CI_BuildAnswer(ucpAnswer, d_E0, NULL);
-			}
-			else
-				// Parameter error: there should be no parameters
-				CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
-			break;
-		case d_GD:
-			if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_10 | d_PTYP_LAST, 0))
-			{
-				if(ucpCommand[3] == '1')
-					SendData_Mask |= (1<<1);
-				else if(ucpCommand[3] == '0')
-					SendData_Mask &= ~(1<<1);
-				CI_BuildAnswer(ucpAnswer, d_E0, NULL);
-			}
-			else
-				// Parameter error: there should be no parameters
-				CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
-			break;
-		case d_RP:
-			if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_X | d_PTYP_LAST, 3))
-			{
-
-				val = DecString2uint16(ucpCommand+3);
-				Set_RefPos((uint16_t) val);
-				CI_BuildAnswer(ucpAnswer, d_E0, NULL);
-			}
-			else
-				// Parameter error: there should be no parameters
-				CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
-			break;
-		default:
-
-		  CI_BuildAnswer(ucpAnswer, d_UnknownASCIICommand, NULL);
-		  break;
-	  } // switch ucCommandCode
-
-	  return (strlen(ucpAnswer) );
-  }
 }// ucCI_CommandInterpreter
 
 
