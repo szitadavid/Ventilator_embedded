@@ -40,8 +40,7 @@ void Init_Ping_IN(void)
 	TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
 	TIM_ICInit(TIM16, &TIM_ICInitStructure);
 
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);//temp
-
+	//highest priority
 	NVIC_InitStructure.NVIC_IRQChannel = TIM1_UP_TIM16_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
@@ -93,12 +92,12 @@ void Init_CNY70(void)
 	TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
 	TIM_ICInit(TIM1, &TIM_ICInitStructure);
 
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);//temp
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 
 	NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
 	NVIC_Init(&NVIC_InitStructure);
 
 	TIM_ITConfig(TIM1, TIM_IT_CC4, ENABLE);
@@ -110,7 +109,11 @@ void Init_CNY70(void)
 void Set_Distance(uint32_t time)
 {
 	time = time * SPEED_OF_SOUND / 20000;		// s_object = t_impulse * v_sound / 2    [cm]
-	Distance = (uint16_t) time;
+
+	//ezen kéne javítani, valamiért nem tudom letiltani a megszakításokat
+	// amíg a trigger 5 us-os tüskét kiadom
+	if(time != 0)
+		Distance = (uint16_t) time;
 }
 
 void Set_RPM(uint16_t data)

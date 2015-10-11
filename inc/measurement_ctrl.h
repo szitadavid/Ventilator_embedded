@@ -13,6 +13,8 @@ uint16_t RPM;						// Motor frequency (rotation per minute)
 uint16_t RefPos;
 
 
+
+
 void Start_Ping(void);
 void Init_Ping_IN(void);
 void Init_Ping_OUT(void);
