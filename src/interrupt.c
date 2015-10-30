@@ -28,7 +28,7 @@ void TIM4_IRQHandler(void)
 	if(TIM_GetITStatus(TIM4, TIM_IT_Update) == SET)
 	{
 		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
-		//SendData = 1;
+		SendData = 1;
 	}
 }
 
@@ -119,6 +119,8 @@ void USART1_IRQHandler(void)
 {
 	char ch;
 	static uint8_t cnt = 1;
+	uint8_t Usart3RxBuffer;
+	static uint16_t overrun_cntr = 0;
 
 	if ((USART1->SR & USART_FLAG_RXNE) != (u16)RESET)
 	{
@@ -161,6 +163,13 @@ void USART1_IRQHandler(void)
 			cnt++;
 		}
 
+		//if overrun, read status register first ...
+		if(USART1->SR & USART_FLAG_ORE)
+		{
+			Usart3RxBuffer = (int8_t)(USART1->SR & (uint8_t)0xFF);  //read status
+			Usart3RxBuffer = (int8_t)(USART1->DR & (uint8_t)0xFF);
+			overrun_cntr++;
+		}
 	}
 }
 
