@@ -1,8 +1,7 @@
 #include "communication.h"
 
-char answer[100];
+
 char msg[100];
-uint8_t answerlen;
 
 // Client table
 Client clients[5] = {
@@ -27,10 +26,11 @@ void SendString_USART(char * str, USART_TypeDef* usartx)
 }
 
 //üzenet értelmezése, küldõ, címzett és típus megállapítása, ez alapján cselekvés
-void Interpret_Message(char* str, uint16_t len)
+void Interpret_Message(char* str, uint16_t len, char* answer)
 {
 	uint8_t client_index;
 
+	answer[0]='\0';
 	str[len] = '\0';
 
 	client_index = str[1] - '0';
@@ -39,8 +39,11 @@ void Interpret_Message(char* str, uint16_t len)
 	{
 		clients[client_index].CLIENT_ACTIVE_SET;
 		clients[client_index].CLIENT_MASTER_RESET;
-		len = ucCI_CommandInterpreter(str+5, client_index, answer);
-		answer[len] = '\0';
+		if(str[5] == 'C')
+		{
+			len = ucCI_CommandInterpreter(str+6, client_index, answer);
+			answer[len] = '\0';
+		}
 	}
 }
 
@@ -74,16 +77,16 @@ uint8_t string_cpy(char* dest, char* src)
 /*
  * Message format: [ID][len][len][len][message]...[/0] up to 315 byte message
  */
-void Create_Message(uint8_t ID, const char* message, char* src)
+void Create_Message(uint8_t ID, const char* message, char* dest)
 {
 	char temp[6];
 	uint8_t msg_len;
-	src[0] = ID + '0';
+	dest[0] = ID + '0';
 
-	msg_len = string_cpy(src + 4, message);
+	msg_len = string_cpy(dest + 4, message);
 
 	uint162StrDec_nc(temp,(uint16_t) msg_len);
-	src[1] = temp[2];
-	src[2] = temp[3];
-	src[3] = temp[4];
+	dest[1] = temp[2];
+	dest[2] = temp[3];
+	dest[3] = temp[4];
 }
