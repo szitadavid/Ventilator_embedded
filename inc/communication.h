@@ -6,7 +6,7 @@
 #include "global.h"
 
 void SendString_USART(char * str, USART_TypeDef* usartx);
-void Interpret_Message(char* str, uint16_t len);
+void Interpret_Message(char* str, uint16_t len, char* answer);
 void Create_Message(uint8_t ID, const char* message, char* src);
 
 uint8_t string_cat(char* dest, const char* src);
