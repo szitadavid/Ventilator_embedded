@@ -17,6 +17,8 @@ const stCommItem G_staCommands[] = {
                                    {"GS", d_GS, "/Get Speed/ Getting the motor speed (in RPM) is enabled (1) or disabled (0). (e.g. GS=0)"},
                                    {"GD", d_GD, "/Get Distance Getting the distance (in cm) is enabled (1) or disabled (0). (e.g. GD=0)"},
                                    {"RP", d_RP, "/Reference position/ Set reference position. Minimum 20 cm, maximum 140 cm."},
+                                   {"HB", d_HB, "/Heart beat/"},
+                                   {"FM", d_FM, "/Sending Format/ 0x00: Readable, 0x01: .csv"},
                                    {"",0}
                                    };
                                   
@@ -91,7 +93,7 @@ uint8_t ucCI_CommandInterpreter(char* ucpCommand,
 		{
 			val = DecString2uint16(ucpCommand+3);
 			M_Set_DC((uint16_t) val);
-			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+			//CI_BuildAnswer(ucpAnswer, d_E0, NULL);
 		}
 		else
 			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
@@ -100,9 +102,9 @@ uint8_t ucCI_CommandInterpreter(char* ucpCommand,
 		if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_10 | d_PTYP_LAST, 0))
 		{
 			if(ucpCommand[3] == '1')
-				SendData_Mask |= (1<<0);
+				clients[clientID].speed = 1;
 			else if(ucpCommand[3] == '0')
-				SendData_Mask &= ~(1<<0);
+				clients[clientID].speed = 0;
 			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
 		}
 		else
@@ -112,9 +114,9 @@ uint8_t ucCI_CommandInterpreter(char* ucpCommand,
 		if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_10 | d_PTYP_LAST, 0))
 		{
 			if(ucpCommand[3] == '1')
-				SendData_Mask |= (1<<1);
+				clients[clientID].distance = 1;
 			else if(ucpCommand[3] == '0')
-				SendData_Mask &= ~(1<<1);
+				clients[clientID].distance = 0;
 			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
 		}
 		else
@@ -131,6 +133,16 @@ uint8_t ucCI_CommandInterpreter(char* ucpCommand,
 		else
 			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
 		break;
+	case d_HB:
+		if (!ucCI_CheckParameter(0, ucpCommand, 0, 0))
+		{
+			clients[clientID].heartbeat = 1;
+			clients[clientID].active = 1;
+		}
+		else
+			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
+		break;
+
 	default:
 
 	  CI_BuildAnswer(ucpAnswer, d_UnknownASCIICommand, NULL);
@@ -167,7 +179,7 @@ void CI_BuildAnswer(char* ucpDest, const char* ucpStatus,char* ucpAnswer)
 	  { // Answer is appended
 	    strcat(ucpDest, ucpAnswer);
 	  }
-	  strcat(ucpDest, "\r\n");
+	 // strcat(ucpDest, "\r\n");
 }
 
 uint8_t ucCI_CheckHelp(char* ucpString)

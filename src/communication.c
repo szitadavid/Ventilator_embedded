@@ -3,15 +3,6 @@
 
 char msg[100];
 
-// Client table
-Client clients[5] = {
-		{0},
-		{0},
-		{0},
-		{0},
-		{0},
-};
-
 void SendString_USART(char * str, USART_TypeDef* usartx)
 {
 	while(*str != '\0')
@@ -37,8 +28,6 @@ void Interpret_Message(char* str, uint16_t len, char* answer)
 	//valid BT ID
 	if(client_index >= 0 && client_index < 10)
 	{
-		clients[client_index].CLIENT_ACTIVE_SET;
-		clients[client_index].CLIENT_MASTER_RESET;
 		if(str[5] == 'C')
 		{
 			len = ucCI_CommandInterpreter(str+6, client_index, answer);
@@ -89,4 +78,47 @@ void Create_Message(uint8_t ID, const char* message, char* dest)
 	dest[1] = temp[2];
 	dest[2] = temp[3];
 	dest[3] = temp[4];
+}
+
+void SendHeartbeatRequest(void)
+{
+	uint8_t id;
+	char msg[20];
+	for(id=0; id<BT_CLIENT_MAX; id++)
+	{
+		if(clients[id].active != 0)
+		{
+			Create_Message(id,"HB",msg);
+			SendString_USART(msg,USART_BLUETOOTH);
+			SendData = 1;
+		}
+	}
+}
+
+void CreateFormattedMessage(uint8_t ID, char* formattedMessage)
+{
+	char temp2[20];
+	uint16_t error;
+	uint16_t DataTemp;
+	formattedMessage[0] = '\0';
+	//Readable format
+	if(clients[ID].format == 0x00)
+	{
+		strcat(formattedMessage,"Not implemented function.\n");
+	}
+	//CSV format
+	else if(clients[ID].format == 0x01)
+	{
+		error = Get_Distance();
+		uint162StrDec(formattedMessage, error);
+		strcat(formattedMessage,";");
+		DataTemp = M_Get_DC();
+		uint162StrDec(temp2, DataTemp);
+		strcat(temp2,";");
+		strcat(formattedMessage,temp2);
+		DataTemp = Get_RPM();
+		uint162StrDec(temp2, DataTemp);
+		strcat(temp2,";\n");
+		strcat(formattedMessage,temp2);
+	}
 }

@@ -29,6 +29,17 @@ void TIM4_IRQHandler(void)
 	{
 		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
 		SendData = 1;
+//		uint8_t i;
+//		for(i=0; i<BT_CLIENT_MAX; i++)
+//		{
+//			if(clients[i].active != 0)
+//			{
+//				if(clients[i].heartbeat == 0)
+//					clients[i].active = 0;
+//				clients[i].heartbeat = 0;
+//			}
+//		}
+		//SendHeartbeat = 1;
 	}
 }
 

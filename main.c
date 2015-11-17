@@ -12,17 +12,23 @@ char BT_message[100];
 char command2[100];
 char Wifi_message[100];
 
-extern Client clients[];
+
 
 
 int main(void)
 {
 	int j;
+	uint16_t i=0;
 	uint16_t DataTemp;
 	char temp[100];
 	char temp2[20];
 	float error;
 	char message[100];
+	char fmessage[100];
+	char answer[100];
+	uint8_t currentID = 0;
+
+	uint16_t testtomb[120];
 
 	Init_CNY70();
 	Init_TIM6();
@@ -32,18 +38,30 @@ int main(void)
 	Init_UART3();		//WiFi
 	Init_Hbridge();
 	M_Default();
-//	Init_TIM4();		//timer for data sending frequency
+	Init_TIM4();		//timer for data sending frequency
 
 //	Default_MyPIDParam();
+
 
 	SendData_Mask = 0;	//
 	UserTyping  = 0;
 	SendData = 0;
 	control = 0;
+	SendHeartbeat = 0;
 
 	Set_RefPos((uint16_t) 80);
 
 //	Create_Message(8,"message",BT_message);
+
+	for(j=0;j<5;j++)
+	{
+		clients[j].active = 0;
+		clients[j].heartbeat = 0;
+		clients[j].settings = 0;
+		clients[j].format = 0x01;
+		clients[j].distance = 0;
+		clients[j].speed = 0;
+	}
 
 	//Delay - Wifi and Bluetooth module startup
 	for(j=0;j<1000000;j++);
@@ -57,7 +75,7 @@ int main(void)
 	for(j=0;j<1000000;j++);
 	for(j=0;j<1000000;j++);
 	for(j=0;j<1000000;j++);
-
+	j=0;
 	//Start distance measurement
 	TIM_Cmd(TIM6,ENABLE);
 	Start_Ping();
@@ -67,14 +85,21 @@ int main(void)
 	Wifi_message[0]='W';
 
 
-	clients[0].CLIENT_ACTIVE_SET;
+	j=0;
+
+
 	while(1)
     {
 		if(BT_messagearrived)
 		{
-			Interpret_Message(BT_message, BT_messagearrived);
-			SendData = 1;
+			Interpret_Message(BT_message, BT_messagearrived, answer);
+			//SendData = 1;
 			BT_messagearrived = 0;
+			if(answer[0] != '\0')
+			{
+				Create_Message(0,answer,message);
+				SendString_USART(message, USART_BLUETOOTH);
+			}
 		}
 
 		if(Wifi_messagearrived)
@@ -91,19 +116,25 @@ int main(void)
 		//format: error;control(duty cycle);motorspeed
 		if(SendData)
 		{
-			SendData = 0;
-			error = Get_RefPos() - Get_Distance();
-			double2StrDec(temp, error);
-			string_cat(temp,";");
-			DataTemp = M_Get_DC();
-			uint162StrDec(temp2, DataTemp);
-			string_cat(temp2,";");
-			string_cat(temp,temp2);
-			DataTemp = Get_RPM();
-			uint162StrDec(temp2, DataTemp);
-			string_cat(temp,temp2);
-			Create_Message(0,temp,message);
+			if(clients[currentID].active != 0)
+			{
+				CreateFormattedMessage(currentID, fmessage);
+				Create_Message(currentID, fmessage, message);
+				SendString_USART(message, USART_BLUETOOTH);
+			}
+			currentID++;
+			if(currentID > BT_CLIENT_MAX)
+			{
+				currentID = 0;
+				SendData = 0;
+			}
+		}
+
+		if(SendHeartbeat)
+		{
+			SendHeartbeat = 0;
 			SendString_USART(message, USART_BLUETOOTH);
+			SendHeartbeatRequest();
 		}
     }
 }

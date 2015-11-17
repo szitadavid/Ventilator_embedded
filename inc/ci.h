@@ -31,7 +31,8 @@
 #define d_RP        0x03
 #define d_GS        0x04
 #define d_GD        0x05
-#define d_GC        0x06
+#define d_HB        0x06
+#define d_FM        0x07
 
 
 

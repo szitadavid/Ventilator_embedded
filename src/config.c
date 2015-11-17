@@ -40,8 +40,8 @@ void Init_TIM4(void)
 
 	// TIM4 is running at 25 Hz
 	TIM_TimeBaseStructInit(&TIM_InitStucture);
-	TIM_InitStucture.TIM_Prescaler = 959;
-	TIM_InitStucture.TIM_Period = 999;
+	TIM_InitStucture.TIM_Prescaler = 4799;
+	TIM_InitStucture.TIM_Period = 124;
 	TIM_TimeBaseInit(TIM4, &TIM_InitStucture);
 
 	TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE);
@@ -212,7 +212,7 @@ void Init_UART1(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-	USART_InitStructure.USART_BaudRate = 230400;
+	USART_InitStructure.USART_BaudRate = 115200;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_Parity = USART_Parity_No;

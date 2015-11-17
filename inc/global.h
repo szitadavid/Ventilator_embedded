@@ -13,10 +13,10 @@
 #define USART_BLUETOOTH		USART1
 #define TERM_FBCK			0			//feedback through serial port
 
-#define CLIENT_ACTIVE_SET		settings |= (1<<0)
-#define CLIENT_ACTIVE_RESET		settings &= ~(1<<0)
-#define CLIENT_MASTER_SET		settings |= (1<<1)
-#define CLIENT_MASTER_RESET		settings &= ~(1<<1)
+#define CLIENT_DISTANCE_SET		settings |= (1<<0)
+#define CLIENT_DISTANCE_RESET		settings &= ~(1<<0)
+#define BT_CLIENT_MAX		5
+
 
 uint8_t BT_messagearrived;
 uint8_t Wifi_messagearrived;
@@ -24,11 +24,18 @@ uint8_t SendData_Mask;
 uint8_t UserTyping;
 uint8_t SendData;
 uint8_t control;
+uint8_t SendHeartbeat;
 
 typedef struct Client
 {
 	uint8_t settings;
+	uint8_t active;
+	uint8_t heartbeat;
+	uint8_t distance;
+	uint8_t speed;
+	uint8_t format;
 } Client;
 
+Client clients[5];
 
 #endif
