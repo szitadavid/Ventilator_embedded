@@ -14,39 +14,45 @@ void Init_Ping_IN(void)
 	TIM_TimeBaseInitTypeDef TIM_InitStructure;
 	TIM_ICInitTypeDef TIM_ICInitStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
+	static uint8_t pingInit = 0;
 
-	TIM_ITConfig(TIM16, TIM_IT_Update, DISABLE);
-	TIM_ITConfig(TIM16, TIM_IT_CC1, DISABLE);
-
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM16, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB|RCC_APB2Periph_AFIO, ENABLE);
-
-	//default input
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-	// TIM1 (Ttick = 5 us)
-	TIM_TimeBaseStructInit(&TIM_InitStructure);
-	TIM_InitStructure.TIM_Prescaler = 119;
-	TIM_TimeBaseInit(TIM16, &TIM_InitStructure);
 
-    TIM_ICStructInit(&TIM_ICInitStructure);
-	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
-	TIM_ICInitStructure.TIM_ICFilter = 0x0;
-	TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_BothEdge;
-	TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
-	TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
-	TIM_ICInit(TIM16, &TIM_ICInitStructure);
+	//ez csak egyszer fut le, a legelsõ alkalommal (lehetne külön függvény vagy belefér a start_PINGbe is)
+	if(pingInit == 0)
+	{
+		TIM_ITConfig(TIM16, TIM_IT_Update, DISABLE);
+		TIM_ITConfig(TIM16, TIM_IT_CC1, DISABLE);
 
-	//highest priority
-	NVIC_InitStructure.NVIC_IRQChannel = TIM1_UP_TIM16_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	NVIC_Init(&NVIC_InitStructure);
-	TIM_Cmd(TIM16, ENABLE);
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM16, ENABLE);
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB|RCC_APB2Periph_AFIO, ENABLE);
+
+		// TIM1 (Ttick = 5 us)
+		TIM_TimeBaseStructInit(&TIM_InitStructure);
+		TIM_InitStructure.TIM_Prescaler = 119;
+		TIM_TimeBaseInit(TIM16, &TIM_InitStructure);
+
+		TIM_ICStructInit(&TIM_ICInitStructure);
+		TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
+		TIM_ICInitStructure.TIM_ICFilter = 0x0;
+		TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_BothEdge;
+		TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
+		TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
+		TIM_ICInit(TIM16, &TIM_ICInitStructure);
+
+		//highest priority
+		NVIC_InitStructure.NVIC_IRQChannel = TIM1_UP_TIM16_IRQn;
+		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+		NVIC_Init(&NVIC_InitStructure);
+		TIM_Cmd(TIM16, ENABLE);
+		pingInit = 1;
+	}
 	TIM_ClearITPendingBit(TIM16, TIM_IT_CC1);
 	TIM_ITConfig(TIM16, TIM_IT_CC1, ENABLE);
 
@@ -56,7 +62,8 @@ void Init_Ping_OUT(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+	TIM_ClearITPendingBit(TIM16, TIM_IT_CC1);
+	TIM_ITConfig(TIM16, TIM_IT_CC1, DISABLE);
 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
@@ -112,6 +119,7 @@ void Set_Distance(uint32_t time)
 
 	//ezen kéne javítani, valamiért nem tudom letiltani a megszakításokat
 	// amíg a trigger 5 us-os tüskét kiadom
+	//update: sikerült, de azért maradjon itt az ellenõrzés
 	if(time != 0)
 		Distance = (uint16_t) time;
 }
@@ -138,4 +146,55 @@ void Set_RefPos(uint16_t data)
 uint16_t Get_RefPos(void)
 {
 	return RefPos;
+}
+
+float MyPIDControl(float error)
+{
+	float val;
+
+	val = myPID.b0 * error + myPID.b1 * myPID.e_prev + myPID.b2 * myPID.e_prevprev
+			+ myPID.u_prev;
+	if(val > 300)
+		val = 300;
+	if(val < 0)
+		val = 0;
+
+	myPID.e_prevprev = myPID.e_prev;
+	myPID.e_prev = error;
+
+	myPID.u_prevprev = myPID.u_prev;
+	myPID.u_prev = val;
+
+	return val + 600;
+}
+
+void Default_MyPIDParam(void)
+{
+	myPID.u_prev = 0;
+	myPID.u_prevprev = 0;
+	myPID.e_prev = 0;
+	myPID.e_prevprev = 0;
+
+	myPID.Kc = 5;
+	myPID.Ti = 1;
+	myPID.Td = 1;
+	myPID.Ts = T_SAMPLE;
+//	myPID.b0 = 2.016;
+//	myPID.b1 = -1.8;
+//	myPID.b2 = 0;
+//
+//	myPID.a1 = -1;
+//	myPID.a2 = 0;
+
+	SetMyPIDParameters();
+
+	RefPos = 80;
+}
+
+void SetMyPIDParameters(void)
+{
+	myPID.a1 = -1;
+	myPID.b0 = myPID.Kc*(1 + myPID.Ts/myPID.Ti + myPID.Td/myPID.Ts);
+	myPID.b1 = -1*myPID.Kc*(1 + 2*myPID.Td/myPID.Ts);
+	myPID.b2 = myPID.Kc * myPID.Td/myPID.Ts;
 }

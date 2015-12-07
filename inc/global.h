@@ -3,8 +3,8 @@
 
 #define REVISION		"V2.0"
 #define SPEED_OF_SOUND	344
-#define HAND_CTRL		1
-#define T_SAMPLE		0.04
+#define HAND_CTRL		0
+#define T_SAMPLE		0.06
 
 
 //V2.0 defines
@@ -13,8 +13,6 @@
 #define USART_BLUETOOTH		USART1
 #define TERM_FBCK			0			//feedback through serial port
 
-#define CLIENT_DISTANCE_SET		settings |= (1<<0)
-#define CLIENT_DISTANCE_RESET		settings &= ~(1<<0)
 #define BT_CLIENT_MAX		5
 
 
@@ -28,7 +26,6 @@ uint8_t SendHeartbeat;
 
 typedef struct Client
 {
-	uint8_t settings;
 	uint8_t active;
 	uint8_t heartbeat;
 	uint8_t distance;

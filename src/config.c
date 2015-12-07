@@ -38,10 +38,10 @@ void Init_TIM4(void)
 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
 
-	// TIM4 is running at 25 Hz
+	// TIM4 is running at 1000 Hz
 	TIM_TimeBaseStructInit(&TIM_InitStucture);
-	TIM_InitStucture.TIM_Prescaler = 4799;
-	TIM_InitStucture.TIM_Period = 124;
+	TIM_InitStucture.TIM_Prescaler = 239;
+	TIM_InitStucture.TIM_Period = 99;
 	TIM_TimeBaseInit(TIM4, &TIM_InitStucture);
 
 	TIM_ITConfig(TIM4, TIM_IT_Update, ENABLE);
@@ -63,9 +63,9 @@ void Init_TIM6(void)
 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, ENABLE);
 
-	// TIM6 is running at 200 Hz //interrupt in every 5 ms
+	// TIM6 is running at 66 Hz //interrupt in every 15 ms
 	TIM_TimeBaseStructInit(&TIM_InitStucture);
-	TIM_InitStucture.TIM_Prescaler = 239;
+	TIM_InitStucture.TIM_Prescaler = 719;
 	TIM_InitStucture.TIM_Period = 499;
 	TIM_TimeBaseInit(TIM6, &TIM_InitStucture);
 

@@ -24,14 +24,32 @@ void Interpret_Message(char* str, uint16_t len, char* answer)
 	answer[0]='\0';
 	str[len] = '\0';
 
-	client_index = str[1] - '0';
-	//valid BT ID
-	if(client_index >= 0 && client_index < 10)
+	int j;
+	//Bluetooth message received
+	if(str[0] == 'B')
 	{
-		if(str[5] == 'C')
+		//Valid Bluetooth ID, message from client
+		if(str[1] >= '0' && str[1] <= '9')
 		{
-			len = ucCI_CommandInterpreter(str+6, client_index, answer);
-			answer[len] = '\0';
+			client_index = str[1] - '0';
+			//System command
+			if(str[5] == 'S')
+			{
+				len = ucCI_CommandInterpreter(str+6, client_index, answer);
+				answer[len] = '\0';
+			}
+
+			//Wifi command
+			if(str[5] == 'W')
+			{
+				SendString_USART(str+6,USART_WIFI);
+				SendString_USART("\r",USART_WIFI);
+			}
+		}
+		//Answer from Bluetooth module
+		else if(str[1] == '-')
+		{
+			//used only in development phase
 		}
 	}
 }
@@ -75,9 +93,9 @@ void Create_Message(uint8_t ID, const char* message, char* dest)
 	msg_len = string_cpy(dest + 4, message);
 
 	uint162StrDec_nc(temp,(uint16_t) msg_len);
-	dest[1] = temp[2];
-	dest[2] = temp[3];
-	dest[3] = temp[4];
+	dest[1] = temp[1];
+	dest[2] = temp[2];
+	dest[3] = temp[3];
 }
 
 void SendHeartbeatRequest(void)
@@ -109,8 +127,12 @@ void CreateFormattedMessage(uint8_t ID, char* formattedMessage)
 	//CSV format
 	else if(clients[ID].format == 0x01)
 	{
-		error = Get_Distance();
+		error = Get_RefPos();
 		uint162StrDec(formattedMessage, error);
+		strcat(formattedMessage,";");
+		error = Get_Distance();
+		uint162StrDec(temp2, error);
+		strcat(formattedMessage,temp2);
 		strcat(formattedMessage,";");
 		DataTemp = M_Get_DC();
 		uint162StrDec(temp2, DataTemp);

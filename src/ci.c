@@ -15,10 +15,12 @@ const stCommItem G_staCommands[] = {
                                    {"SP", d_SP, "/Speed/ Motor speed (duty cycle) given in hexa, range: 0x000 - 0xFFFF. (e.g. SP=12AB)"},
                                    {"DC", d_DC, "/Duty Cycle/ Motor speed (duty cycle) given in decimal, range: 0-100 [%]. (e.g. DC=50)"},
                                    {"GS", d_GS, "/Get Speed/ Getting the motor speed (in RPM) is enabled (1) or disabled (0). (e.g. GS=0)"},
-                                   {"GD", d_GD, "/Get Distance Getting the distance (in cm) is enabled (1) or disabled (0). (e.g. GD=0)"},
-                                   {"RP", d_RP, "/Reference position/ Set reference position. Minimum 20 cm, maximum 140 cm."},
-                                   {"HB", d_HB, "/Heart beat/"},
+                                   {"GD", d_GD, "/Get Distance/ Getting the distance (in cm) is enabled (1) or disabled (0). (e.g. GD=0)"},
+                                   {"RP", d_RP, "/Reference Position/ Set reference position. Minimum 20 cm, maximum 140 cm."},
+                                   {"HB", d_HB, "/Heart Beat/"},
                                    {"FM", d_FM, "/Sending Format/ 0x00: Readable, 0x01: .csv"},
+                                   {"GP", d_GP, "/Get Parameters/ returns the parameters of the PID controller"},
+                                   {"CP", d_CP, "/Change Parameters/ returns the parameters of the PID controller"},
                                    {"",0}
                                    };
                                   
@@ -79,11 +81,13 @@ uint8_t ucCI_CommandInterpreter(char* ucpCommand,
 	case d_SP:
 		if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_X | d_PTYP_LAST, 4))
 		{
-
-			val = Str2uint16(ucpCommand+3);
-			val = val *1000 / 0xFFFF;
-			M_Set_DC((uint16_t) val);
-			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+			if(HAND_CTRL)
+			{
+				val = Str2uint16(ucpCommand+3);
+				val = val *1000 / 0xFFFF;
+				M_Set_DC((uint16_t) val);
+				//CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+			}
 		}
 		else
 			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
@@ -91,8 +95,11 @@ uint8_t ucCI_CommandInterpreter(char* ucpCommand,
 	case d_DC:
 		if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_X | d_PTYP_LAST, 4))
 		{
-			val = DecString2uint16(ucpCommand+3);
-			M_Set_DC((uint16_t) val);
+			if(HAND_CTRL)
+			{
+				val = DecString2uint16(ucpCommand+3);
+				M_Set_DC((uint16_t) val);
+			}
 			//CI_BuildAnswer(ucpAnswer, d_E0, NULL);
 		}
 		else
@@ -105,7 +112,7 @@ uint8_t ucCI_CommandInterpreter(char* ucpCommand,
 				clients[clientID].speed = 1;
 			else if(ucpCommand[3] == '0')
 				clients[clientID].speed = 0;
-			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+			//CI_BuildAnswer(ucpAnswer, d_E0, NULL);
 		}
 		else
 			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
@@ -117,7 +124,7 @@ uint8_t ucCI_CommandInterpreter(char* ucpCommand,
 				clients[clientID].distance = 1;
 			else if(ucpCommand[3] == '0')
 				clients[clientID].distance = 0;
-			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+			//CI_BuildAnswer(ucpAnswer, d_E0, NULL);
 		}
 		else
 			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
@@ -128,21 +135,76 @@ uint8_t ucCI_CommandInterpreter(char* ucpCommand,
 
 			val = DecString2uint16(ucpCommand+3);
 			Set_RefPos((uint16_t) val);
-			CI_BuildAnswer(ucpAnswer, d_E0, NULL);
+			//CI_BuildAnswer(ucpAnswer, d_E0, NULL);
 		}
 		else
 			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
 		break;
 	case d_HB:
-		if (!ucCI_CheckParameter(0, ucpCommand, 0, 0))
+		if (!ucCI_CheckParameter(1, ucpCommand, d_PTYP_10 | d_PTYP_LAST, 0))
 		{
-			clients[clientID].heartbeat = 1;
-			clients[clientID].active = 1;
+			if(ucpCommand[3] == '1')
+			{
+				clients[clientID].heartbeat = 1;
+				clients[clientID].active = 1;
+			}
+			else if(ucpCommand[3] == '0')
+			{
+				clients[clientID].active = 0;
+			}
 		}
 		else
 			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
 		break;
+	case d_GP:
+		if (!ucCI_CheckParameter(0, ucpCommand, 0, 0))
+		{
 
+			char temp[30];
+			double2StrDec(temp, myPID.Kc);
+			strcat(ucpAnswer,temp);
+			strcat(ucpAnswer,";");
+			double2StrDec(temp, myPID.Ti);
+			strcat(ucpAnswer,temp);
+			strcat(ucpAnswer,";");
+			double2StrDec(temp, myPID.Td);
+			strcat(ucpAnswer,temp);
+			strcat(ucpAnswer,"\n");
+		}
+		else
+			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
+		break;
+	case d_CP:
+		if (!ucCI_CheckParameter(3, ucpCommand, d_PTYP_dbl | d_PTYP_LAST, 10))
+		{
+		    uint8_t i, j = 0;
+		    char num[11];
+		    float fnum;
+		    ucpCommand += 2;
+		    if (*ucpCommand == '=') ucpCommand++;
+		    for (i = 1; i <= 3; i++)
+		    {
+		    	j=0;
+		        while ((*ucpCommand != ',') && (*ucpCommand != 0))
+		        {
+		        	num[j++] = *ucpCommand;
+		        	ucpCommand++;
+		        }
+		        ucpCommand++;
+		        num[j] = '\0';
+		        fnum = (float) DecString2double(num);
+		        if(i==1)
+		        	myPID.Kc = fnum;
+		        else if(i==2)
+		        	myPID.Ti = fnum;
+		        else if(i==3)
+		        	myPID.Td = fnum;
+		    }
+		    SetMyPIDParameters();
+		}
+		else
+			CI_BuildAnswer(ucpAnswer, d_InvalidParameter, NULL);
+		break;
 	default:
 
 	  CI_BuildAnswer(ucpAnswer, d_UnknownASCIICommand, NULL);
@@ -292,7 +354,7 @@ uint8_t ucCI_CheckParameter(uint8_t ucParameterNumber,char* ucpCommand,
     else return(11); //missing '='
     for (i = 1; i < ucParameterNumber; i++)
     {
-        while ((*ucpPoi != '=') && (*ucpPoi != ';') && (*ucpPoi != 0)) ucpPoi++;		//paraméterek pontosvesszõvel elválasztva
+        while ((*ucpPoi != '=') && (*ucpPoi != ',') && (*ucpPoi != 0)) ucpPoi++;		//paraméterek vesszõvel elválasztva
         if (*ucpPoi == 0) break;// Not enough parameter     // BUGFIX: KDO (*ucpPoi)
         ucpPoi++;
     }// for (i = 1; i <= ucParameterNumber; i++)

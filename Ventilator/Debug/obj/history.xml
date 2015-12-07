@@ -1,64 +1,73 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <history>
-   <processor signature="arm-none-eabi-gcc noversion nomachine -mcpu=cortex-m3 -mthumb -Wall -ffunction-sections -g -O0 -c -DSTM32F100RB -DSTM32F10X_MD_VL -DUSE_STDPERIPH_DRIVER -D__ASSEMBLY__ -I..\..\..\..\..\Users\Szita\Documents\GitHub -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\cmsis_boot -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\cmsis -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\stm_lib -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\stm_lib\inc -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\inc">
-      <target file="config.o" lastModified="150d1dfe2eb">
-         <source file="..\..\..\src\config.c" lastModified="150d1dfdcc4"/>
+   <processor signature="arm-none-eabi-gcc noversion nomachine -mcpu=cortex-m3 -mthumb -Wall -ffunction-sections -g -O0 -c -DSTM32F100RB -DSTM32F10X_MD_VL -DUSE_STDPERIPH_DRIVER -D__ASSEMBLY__ -I..\..\..\..\..\Users\Szita\Documents\GitHub -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\cmsis_boot -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\cmsis -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\stm_lib -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\stm_lib\inc -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\inc -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\semihosting">
+      <target file="printf.o" lastModified="1515f10f2b5">
+         <source file="..\..\..\stdio\printf.c" lastModified="1515e3cbef0"/>
       </target>
-      <target file="ci.o" lastModified="1510c086f67">
-         <source file="..\..\..\src\ci.c" lastModified="1510c0869c2"/>
+      <target file="sh_cmd.o" lastModified="1515f10fa6d">
+         <source file="..\..\..\semihosting\sh_cmd.s" lastModified="1515f1030c2"/>
       </target>
-      <target file="stm32f10x_rcc.o" lastModified="15015051215">
-         <source file="..\..\..\stm_lib\src\stm32f10x_rcc.c" lastModified="14b7a2f6bf0"/>
+      <target file="syscalls.o" lastModified="1515f10fb2b">
+         <source file="..\..\..\syscalls\syscalls.c" lastModified="1515f1031b8"/>
       </target>
-      <target file="communication.o" lastModified="151150081f4">
-         <source file="..\..\..\src\communication.c" lastModified="15115007c1c"/>
-      </target>
-      <target file="misc.o" lastModified="15015051891">
-         <source file="..\..\..\stm_lib\src\misc.c" lastModified="14b7a2fff0b"/>
-      </target>
-      <target file="interrupt.o" lastModified="1510bccef45">
-         <source file="..\..\..\src\interrupt.c" lastModified="1510bcce9d9"/>
-      </target>
-      <target file="conv.o" lastModified="1503d4fe5db">
-         <source file="..\..\..\src\conv.c" lastModified="1503d4fdf67"/>
-      </target>
-      <target file="motor.o" lastModified="1510b75dd57">
-         <source file="..\..\..\src\motor.c" lastModified="1501504f9c8"/>
-      </target>
-      <target file="stm32f10x_gpio.o" lastModified="15015050f57">
-         <source file="..\..\..\stm_lib\src\stm32f10x_gpio.c" lastModified="14b7a2f98da"/>
-      </target>
-      <target file="stm32f10x_exti.o" lastModified="15015051380">
-         <source file="..\..\..\stm_lib\src\stm32f10x_exti.c" lastModified="14b7a2f9908"/>
-      </target>
-      <target file="system_stm32f10x.o" lastModified="150150508de">
-         <source file="..\..\..\cmsis_boot\system_stm32f10x.c" lastModified="14b7a2f6c3e"/>
-      </target>
-      <target file="stm32f10x_tim.o" lastModified="1501505075f">
-         <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="14b7a3069af"/>
-      </target>
-      <target file="stm32f10x_adc.o" lastModified="150150514ba">
-         <source file="..\..\..\stm_lib\src\stm32f10x_adc.c" lastModified="14b7a2fddf4"/>
-      </target>
-      <target file="stm32f10x_dma.o" lastModified="150150517c6">
-         <source file="..\..\..\stm_lib\src\stm32f10x_dma.c" lastModified="14b7a2f9937"/>
-      </target>
-      <target file="measurement_ctrl.o" lastModified="1510b75df5a">
-         <source file="..\..\..\src\measurement_ctrl.c" lastModified="1505711e2fa"/>
-      </target>
-      <target file="startup_stm32f10x_md_vl.o" lastModified="150150507fc">
-         <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md_vl.c" lastModified="14cc76fc093"/>
-      </target>
-      <target file="main.o" lastModified="1510c05989d">
-         <source file="..\..\..\main.c" lastModified="1510c059273"/>
-      </target>
-      <target file="stm32f10x_usart.o" lastModified="150150515d5">
-         <source file="..\..\..\stm_lib\src\stm32f10x_usart.c" lastModified="14b7a2fea05"/>
+      <target file="semihosting.o" lastModified="1515f10e9eb">
+         <source file="..\..\..\semihosting\semihosting.c" lastModified="1515f1030b5"/>
       </target>
    </processor>
-   <processor signature="arm-none-eabi-gcc noversion nomachine -mcpu=cortex-m3 -mthumb -Wall -ffunction-sections -g -O0 -c -DSTM32F100RB -DSTM32F10X_MD_VL -DUSE_STDPERIPH_DRIVER -D__ASSEMBLY__ -I..\..\..\workspace\Ventilator\inc -I..\..\..\workspace -I..\..\..\workspace\Ventilator\stm_lib -I..\..\..\workspace\Ventilator\stm_lib\inc -I..\..\..\workspace\Ventilator\cmsis_boot -I..\..\..\workspace\Ventilator -I..\..\..\workspace\Ventilator\cmsis">
-      <target file="wifi.o" lastModified="14beabce26e">
-         <source file="..\..\..\src\wifi.c" lastModified="14beab39304"/>
+   <processor signature="arm-none-eabi-gcc noversion nomachine -mcpu=cortex-m3 -mthumb -Wall -ffunction-sections -g -O0 -c -DSTM32F100RB -DSTM32F10X_MD_VL -DUSE_STDPERIPH_DRIVER -D__ASSEMBLY__ -I..\..\..\..\..\Users\Szita\Documents\GitHub -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\cmsis_boot -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\cmsis -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\stm_lib -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\stm_lib\inc -I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\inc">
+      <target file="config.o" lastModified="151774908a7">
+         <source file="..\..\..\src\config.c" lastModified="1517749033b"/>
+      </target>
+      <target file="ci.o" lastModified="1517c75d3b7">
+         <source file="..\..\..\src\ci.c" lastModified="15178782beb"/>
+      </target>
+      <target file="stm32f10x_rcc.o" lastModified="1515f14519a">
+         <source file="..\..\..\stm_lib\src\stm32f10x_rcc.c" lastModified="14b7a2f6bf0"/>
+      </target>
+      <target file="misc.o" lastModified="1515f1456c2">
+         <source file="..\..\..\stm_lib\src\misc.c" lastModified="14b7a2fff0b"/>
+      </target>
+      <target file="communication.o" lastModified="1517c75d6ec">
+         <source file="..\..\..\src\communication.c" lastModified="15178d24c9e"/>
+      </target>
+      <target file="interrupt.o" lastModified="1517c981516">
+         <source file="..\..\..\src\interrupt.c" lastModified="1517c980fbf"/>
+      </target>
+      <target file="conv.o" lastModified="1515f145839">
+         <source file="..\..\..\src\conv.c" lastModified="1512e4dfb8f"/>
+      </target>
+      <target file="motor.o" lastModified="1517c75d7d7">
+         <source file="..\..\..\src\motor.c" lastModified="1501504f9c8"/>
+      </target>
+      <target file="stm32f10x_gpio.o" lastModified="1515f144d6f">
+         <source file="..\..\..\stm_lib\src\stm32f10x_gpio.c" lastModified="14b7a2f98da"/>
+      </target>
+      <target file="stm32f10x_exti.o" lastModified="1515f1452ba">
+         <source file="..\..\..\stm_lib\src\stm32f10x_exti.c" lastModified="14b7a2f9908"/>
+      </target>
+      <target file="system_stm32f10x.o" lastModified="1515f144abb">
+         <source file="..\..\..\cmsis_boot\system_stm32f10x.c" lastModified="14b7a2f6c3e"/>
+      </target>
+      <target file="stm32f10x_tim.o" lastModified="1515f1449a6">
+         <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="14b7a3069af"/>
+      </target>
+      <target file="stm32f10x_adc.o" lastModified="1515f1453b0">
+         <source file="..\..\..\stm_lib\src\stm32f10x_adc.c" lastModified="14b7a2fddf4"/>
+      </target>
+      <target file="stm32f10x_dma.o" lastModified="1515f145644">
+         <source file="..\..\..\stm_lib\src\stm32f10x_dma.c" lastModified="14b7a2f9937"/>
+      </target>
+      <target file="startup_stm32f10x_md_vl.o" lastModified="1515f144a0f">
+         <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md_vl.c" lastModified="1512ab27aef"/>
+      </target>
+      <target file="measurement_ctrl.o" lastModified="1517c75da10">
+         <source file="..\..\..\src\measurement_ctrl.c" lastModified="151772d26b2"/>
+      </target>
+      <target file="stm32f10x_usart.o" lastModified="1515f145464">
+         <source file="..\..\..\stm_lib\src\stm32f10x_usart.c" lastModified="14b7a2fea05"/>
+      </target>
+      <target file="main.o" lastModified="1517c75d4c8">
+         <source file="..\..\..\main.c" lastModified="15177493a80"/>
       </target>
    </processor>
 </history>

@@ -33,6 +33,8 @@
 #define d_GD        0x05
 #define d_HB        0x06
 #define d_FM        0x07
+#define d_GP        0x08
+#define d_CP        0x09
 
 
 

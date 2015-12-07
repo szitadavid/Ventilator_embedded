@@ -186,9 +186,9 @@ void uint162StrDec_nc (char* str, uint16_t data)
 	}
 	else
 	{
-		for(i=1; i<6; i++)
+		for(i=1; i<5; i++)
 		{
-			str[5-i] = (uint8_t) ((data % 10UL) + '0');
+			str[4-i] = (uint8_t) ((data % 10UL) + '0');
 			data/=10;
 		}
 		str[i-1] = '\0';
@@ -246,6 +246,7 @@ double DecString2double(char* str)
 			i++;
 		}
 	}
+
 	if(minus)
 		return -1 * val;
 	else

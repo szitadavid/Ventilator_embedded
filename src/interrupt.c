@@ -6,8 +6,6 @@ extern char BT_message[100];
 extern char Wifi_message[100];
 
 
-
-
 __IO uint16_t TIM16_IC1ReadValue1 = 0;
 __IO uint16_t TIM16_IC1ReadValue2 = 0;
 __IO uint32_t PING_Response = 0;
@@ -16,6 +14,9 @@ __IO uint16_t TIM1_IC4ReadValue2 = 0;
 __IO uint32_t Motor_Freq = 0;
 
 uint16_t edgecntr = 0;
+
+uint16_t test_distmeas = 0;
+uint16_t test_distmeas2 = 0;
 
 void TIM2_IRQHandler(void)
 {
@@ -28,7 +29,7 @@ void TIM4_IRQHandler(void)
 	if(TIM_GetITStatus(TIM4, TIM_IT_Update) == SET)
 	{
 		TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
-		SendData = 1;
+		//SendData = 1;
 //		uint8_t i;
 //		for(i=0; i<BT_CLIENT_MAX; i++)
 //		{
@@ -52,13 +53,22 @@ void TIM6_DAC_IRQHandler(void)
 	{
 		TIM_ClearITPendingBit(TIM6, TIM_IT_Update);
 		tim6_cnt++;
-		if(tim6_cnt == 2)
+		if(tim6_cnt == 1)
+		{
 			if(!HAND_CTRL)
+			{
 				control = 2;
-		if(tim6_cnt == 8)
+				if(test_distmeas == 1)
+				{
+					test_distmeas2++;
+				}
+			}
+		}
+		if(tim6_cnt == 4)
 		{
 			Start_Ping();
 			tim6_cnt = 0;
+			test_distmeas=1;
 		}
 	}
 }
@@ -120,7 +130,7 @@ void TIM1_UP_TIM16_IRQHandler(void)
 			{
 				PING_Response = PING_Response * 5;
 				Set_Distance(PING_Response);
-				//control = 1;
+				test_distmeas = 0;
 			}
 		}
 	}
@@ -137,6 +147,7 @@ void USART1_IRQHandler(void)
 	{
 		ch = (char) USART_ReceiveData(USART1);
 
+		//ToDo: megvizsgálni, h nem léptük-e túl a tömb méretét.
 		//backspace
 		if(ch == 8)
 		{
@@ -193,10 +204,11 @@ void USART3_IRQHandler(void)
 	{
 		ch = (char) USART_ReceiveData(USART3);
 
+
 		Wifi_message[usart3_cnt] = ch;
-		if(Wifi_message[usart3_cnt] == '\n')
+		if((Wifi_message[usart3_cnt] == '\n') && (usart3_cnt > 2))
 		{
-			Wifi_messagearrived = usart3_cnt;
+			Wifi_messagearrived = ++usart3_cnt;
 			Wifi_message[usart3_cnt] = '\0';
 			usart3_cnt = 1;
 		}

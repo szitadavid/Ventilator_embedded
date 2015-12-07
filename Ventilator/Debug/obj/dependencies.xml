@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dependencies>
    <includePath signature="/I..\..\..\..\..\Users\Szita\Documents\GitHub /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\cmsis_boot /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\cmsis /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\stm_lib /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\stm_lib\inc /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\inc">
-      <source file="..\..\..\cmsis\core_cm3.h" lastModified="14b7a2f7055">
+      <source file="..\..\..\cmsis\core_cm3.h" lastModified="1515e2ac747">
          <include file="..\..\..\cmsis\core_cmInstr.h"/>
          <include file="..\..\..\cmsis\core_cmFunc.h"/>
       </source>
@@ -15,7 +15,7 @@
          <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
       </source>
-      <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md_vl.c" lastModified="14cc76fc093">
+      <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md_vl.c" lastModified="1512ab27aef">
       </source>
       <source file="..\..\..\stm_lib\inc\stm32f10x_adc.h" lastModified="14b7a2fddf4">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
@@ -33,15 +33,18 @@
       </source>
       <source file="..\..\..\cmsis_boot\stm32f10x_conf.h" lastModified="14b7a2f6c2f">
       </source>
+      <source file="..\..\..\src\communication.c" lastModified="15178d24c9e">
+         <include file="..\..\..\inc\communication.h"/>
+      </source>
       <source file="..\..\..\stm_lib\src\misc.c" lastModified="14b7a2fff0b">
          <include file="..\..\..\stm_lib\inc\misc.h"/>
       </source>
-      <source file="..\..\..\cmsis\core_cmFunc.h" lastModified="14b7a2f744d">
+      <source file="..\..\..\cmsis\core_cmFunc.h" lastModified="1515e2acb38">
       </source>
       <source file="..\..\..\stm_lib\inc\stm32f10x_usart.h" lastModified="14b7a2fe9e6">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
-      <source file="..\..\..\src\conv.c" lastModified="1503d4fdf67">
+      <source file="..\..\..\src\conv.c" lastModified="1512e4dfb8f">
          <include file="..\..\..\inc\conv.h"/>
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="14b7a3069af">
@@ -62,10 +65,10 @@
       <source file="..\..\..\stm_lib\inc\misc.h" lastModified="14b7a2ffefb">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
-      <source file="..\..\..\src\ci.c" lastModified="1510c0869c2">
+      <source file="..\..\..\src\ci.c" lastModified="15178782beb">
          <include file="..\..\..\inc\ci.h"/>
       </source>
-      <source file="..\..\..\main.c" lastModified="1510c05965b">
+      <source file="..\..\..\main.c" lastModified="15177493e68">
          <include file="..\..\..\inc\config.h"/>
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
          <include file="..\..\..\inc\motor.h"/>
@@ -86,17 +89,17 @@
          <include file="..\..\..\stm_lib\inc\stm32f10x_dma.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_usart.h"/>
       </source>
-      <source file="..\..\..\src\interrupt.c" lastModified="1510bcce9d9">
+      <source file="..\..\..\src\interrupt.c" lastModified="1517c980fbf">
          <include file="..\..\..\inc\interrupt.h"/>
          <include file="..\..\..\inc\global.h"/>
          <include file="..\..\..\inc\measurement_ctrl.h"/>
       </source>
-      <source file="..\..\..\cmsis\core_cmInstr.h" lastModified="14b7a2f745c">
+      <source file="..\..\..\cmsis\core_cmInstr.h" lastModified="1515e2acb3b">
       </source>
       <source file="..\..\..\inc\conv.h" lastModified="14cd251cc73">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
-      <source file="..\..\..\inc\global.h" lastModified="1510b75c740">
+      <source file="..\..\..\inc\global.h" lastModified="1517c75cc39">
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_rcc.c" lastModified="14b7a2f6bf0">
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
@@ -106,10 +109,10 @@
          <include file="..\..\..\cmsis_boot\system_stm32f10x.h"/>
          <include file="..\..\..\cmsis_boot\stm32f10x_conf.h"/>
       </source>
-      <source file="..\..\..\src\measurement_ctrl.c" lastModified="1505711e2fa">
+      <source file="..\..\..\src\measurement_ctrl.c" lastModified="151772d26b2">
          <include file="..\..\..\inc\measurement_ctrl.h"/>
       </source>
-      <source file="..\..\..\inc\ci.h" lastModified="1510b1c8df7">
+      <source file="..\..\..\inc\ci.h" lastModified="1512e5b65a8">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
          <include file="..\..\..\inc\conv.h"/>
          <include file="..\..\..\inc\motor.h"/>
@@ -126,7 +129,7 @@
          <include file="..\..\..\stm_lib\inc\stm32f10x_adc.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
       </source>
-      <source file="..\..\..\inc\measurement_ctrl.h" lastModified="1505711e319">
+      <source file="..\..\..\inc\measurement_ctrl.h" lastModified="1512a5c5ce2">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
@@ -134,7 +137,7 @@
          <include file="..\..\..\stm_lib\inc\misc.h"/>
          <include file="..\..\..\inc\global.h"/>
       </source>
-      <source file="..\..\..\src\config.c" lastModified="150d1dfdcc4">
+      <source file="..\..\..\src\config.c" lastModified="1517749033b">
          <include file="..\..\..\inc\config.h"/>
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_dma.c" lastModified="14b7a2f9937">
@@ -157,7 +160,7 @@
          <include file="..\..\..\inc\global.h"/>
       </source>
    </includePath>
-   <includePath signature="/I..\..\..\workspace\Ventilator_PING\stm_lib\inc /I..\..\..\workspace /I..\..\..\workspace\Ventilator_PING\cmsis_boot /I..\..\..\workspace\Ventilator_PING\inc /I..\..\..\workspace\Ventilator_PING\stm_lib /I..\..\..\workspace\Ventilator_PING /I..\..\..\workspace\Ventilator_PING\cmsis">
+   <includePath signature="/I..\..\..\..\..\Users\Szita\Documents\GitHub /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\cmsis_boot /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\cmsis /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\stm_lib /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\stm_lib\inc /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\inc /I..\..\..\..\..\Users\Szita\Documents\GitHub\Ventilator_embedded\semihosting">
       <source file="..\..\..\stm_lib\inc\stm32f10x_rcc.h" lastModified="14b7a2f6be1">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
@@ -168,12 +171,15 @@
          <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
       </source>
-      <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md_vl.c" lastModified="14cc76fc093">
+      <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md_vl.c" lastModified="1512ab27aef">
       </source>
       <source file="..\..\..\stm_lib\inc\stm32f10x_adc.h" lastModified="14b7a2fddf4">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
       <source file="..\..\..\cmsis_boot\system_stm32f10x.h" lastModified="14b7a2f6c4e">
+      </source>
+      <source file="..\..\..\src\motor.c" lastModified="1501504f9c8">
+         <include file="..\..\..\inc\motor.h"/>
       </source>
       <source file="..\..\..\cmsis_boot\system_stm32f10x.c" lastModified="14b7a2f6c3e">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
@@ -188,6 +194,9 @@
       </source>
       <source file="..\..\..\stm_lib\inc\stm32f10x_usart.h" lastModified="14b7a2fe9e6">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\src\conv.c" lastModified="1512e4dfb8f">
+         <include file="..\..\..\inc\conv.h"/>
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="14b7a3069af">
          <include file="..\..\..\stm_lib\inc\stm32f10x_tim.h"/>
@@ -207,78 +216,16 @@
       <source file="..\..\..\stm_lib\inc\misc.h" lastModified="14b7a2ffefb">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
       </source>
-      <source file="..\..\..\stm_lib\src\stm32f10x_rcc.c" lastModified="14b7a2f6bf0">
-         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\src\stm32f10x_adc.c" lastModified="14b7a2fddf4">
-         <include file="..\..\..\stm_lib\inc\stm32f10x_adc.h"/>
-         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\src\stm32f10x_dma.c" lastModified="14b7a2f9937">
-         <include file="..\..\..\stm_lib\inc\stm32f10x_dma.h"/>
-         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\inc\stm32f10x_exti.h" lastModified="14b7a2f98f9">
+      <source file="..\..\..\inc\config.h" lastModified="150150f4674">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\inc\stm32f10x_gpio.h" lastModified="14b7a2f98ca">
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\inc\stm32f10x_tim.h" lastModified="14b7a30699f">
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-   </includePath>
-   <includePath signature="/I..\..\..\workspace\Ventilator\inc /I..\..\..\workspace /I..\..\..\workspace\Ventilator\stm_lib /I..\..\..\workspace\Ventilator\stm_lib\inc /I..\..\..\workspace\Ventilator\cmsis_boot /I..\..\..\workspace\Ventilator /I..\..\..\workspace\Ventilator\cmsis">
-      <source file="..\..\..\stm_lib\inc\stm32f10x_rcc.h" lastModified="14b7a2f6be1">
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\src\stm32f10x_exti.c" lastModified="14b7a2f9908">
-         <include file="..\..\..\stm_lib\inc\stm32f10x_exti.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\src\stm32f10x_gpio.c" lastModified="14b7a2f98da">
          <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
-      </source>
-      <source file="..\..\..\cmsis_boot\startup\startup_stm32f10x_md_vl.c" lastModified="14cc76fc093">
-      </source>
-      <source file="..\..\..\stm_lib\inc\stm32f10x_adc.h" lastModified="14b7a2fddf4">
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-      <source file="..\..\..\cmsis_boot\system_stm32f10x.h" lastModified="14b7a2f6c4e">
-      </source>
-      <source file="..\..\..\cmsis_boot\system_stm32f10x.c" lastModified="14b7a2f6c3e">
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\inc\stm32f10x_dma.h" lastModified="14b7a2f9928">
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-      <source file="..\..\..\cmsis_boot\stm32f10x_conf.h" lastModified="14b7a2f6c2f">
-      </source>
-      <source file="..\..\..\stm_lib\src\misc.c" lastModified="14b7a2fff0b">
+         <include file="..\..\..\stm_lib\inc\stm32f10x_tim.h"/>
          <include file="..\..\..\stm_lib\inc\misc.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\inc\stm32f10x_usart.h" lastModified="14b7a2fe9e6">
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\src\stm32f10x_tim.c" lastModified="14b7a3069af">
-         <include file="..\..\..\stm_lib\inc\stm32f10x_tim.h"/>
-         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\src\stm32f10x_usart.c" lastModified="14b7a2fea05">
-         <include file="..\..\..\stm_lib\inc\stm32f10x_usart.h"/>
-         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
-      </source>
-      <source file="..\..\..\inc\interrupt.h" lastModified="14a2a7b7960">
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
-         <include file="..\..\..\stm_lib\inc\stm32f10x_tim.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_adc.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_exti.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_dma.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_usart.h"/>
-      </source>
-      <source file="..\..\..\stm_lib\inc\misc.h" lastModified="14b7a2ffefb">
-         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
-      </source>
-      <source file="..\..\..\src\wifi.c" lastModified="14beab39304">
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_rcc.c" lastModified="14b7a2f6bf0">
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
@@ -286,6 +233,14 @@
       <source file="..\..\..\stm_lib\src\stm32f10x_adc.c" lastModified="14b7a2fddf4">
          <include file="..\..\..\stm_lib\inc\stm32f10x_adc.h"/>
          <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+      </source>
+      <source file="..\..\..\inc\measurement_ctrl.h" lastModified="1512a5c5ce2">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_rcc.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_tim.h"/>
+         <include file="..\..\..\stm_lib\inc\misc.h"/>
+         <include file="..\..\..\inc\global.h"/>
       </source>
       <source file="..\..\..\stm_lib\src\stm32f10x_dma.c" lastModified="14b7a2f9937">
          <include file="..\..\..\stm_lib\inc\stm32f10x_dma.h"/>
@@ -299,6 +254,12 @@
       </source>
       <source file="..\..\..\stm_lib\inc\stm32f10x_tim.h" lastModified="14b7a30699f">
          <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+      </source>
+      <source file="..\..\..\inc\motor.h" lastModified="1501504fa71">
+         <include file="..\..\..\cmsis_boot\stm32f10x.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_gpio.h"/>
+         <include file="..\..\..\stm_lib\inc\stm32f10x_tim.h"/>
+         <include file="..\..\..\inc\global.h"/>
       </source>
    </includePath>
 </dependencies>
